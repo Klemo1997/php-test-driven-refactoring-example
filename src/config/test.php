@@ -2,4 +2,8 @@
 
 declare(strict_types=1);
 
-return [];
+use Pdo\Sqlite;
+
+return [
+    \Pdo\Sqlite::class => new Sqlite('sqlite:/app/test.sqlite'),
+];
