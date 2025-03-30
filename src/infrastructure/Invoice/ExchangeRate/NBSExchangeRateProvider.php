@@ -18,7 +18,7 @@ final readonly class NBSExchangeRateProvider
     public function fetch(string $sourceCurrency, string $targetCurrency, \DateTimeImmutable $date): float
     {
         if ($sourceCurrency !== 'EUR') {
-            throw new UnableToFetchExchangeRateException('Invalid target currency');
+            throw new UnableToFetchExchangeRateException('Invalid source currency');
         }
 
         $nbs_url = sprintf('https://nbs.sk/export/sk/exchange-rate/%s/csv', $date->format('Y-m-d'));
@@ -28,7 +28,7 @@ final readonly class NBSExchangeRateProvider
         $exchange_rates_map = $this->exchangeRatesFromCSV($exchange_rates_csv);
 
         return $exchange_rates_map[$targetCurrency]
-            ?? throw new UnableToFetchExchangeRateException('Invalid source currency');
+            ?? throw new UnableToFetchExchangeRateException('Invalid target currency');
     }
 
     /**
