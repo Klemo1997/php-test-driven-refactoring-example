@@ -20,7 +20,7 @@ final readonly class InvoiceSQLiteRepository
             VALUES(:amount, :currency, :vat, :exchange_rate, :issued_on, :created_at)
             SQL);
 
-        $isSuccessful = $statement->execute([
+        $is_successful = $statement->execute([
             ':amount' => $invoice['amount'],
             ':currency' => $invoice['currency'],
             ':vat' =>  $invoice['vat'],
@@ -29,7 +29,7 @@ final readonly class InvoiceSQLiteRepository
             ':created_at' => $invoice['created_at'],
         ]);
 
-        if (!$isSuccessful) {
+        if (!$is_successful) {
             throw new \RuntimeException('Unable to save invoice');
         }
 

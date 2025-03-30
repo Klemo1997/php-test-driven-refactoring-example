@@ -56,14 +56,14 @@ final class NBSExchangeRateProviderTest extends TestCase
 
     public function testFetch(): void
     {
-        $actualRate = new NBSExchangeRateProvider($this->getFakeClient())
+        $actual_rate = new NBSExchangeRateProvider($this->getFakeClient())
             ->fetch(
                 self::SOURCE_CURRENCY,
                 self::TARGET_CURRENCY,
                 new \DateTimeImmutable(self::ISSUED_DATE),
             );
 
-        self::assertSame(self::SOURCE_TARGET_EXCHANGE_RATE, $actualRate);
+        self::assertSame(self::SOURCE_TARGET_EXCHANGE_RATE, $actual_rate);
     }
 
     public function testFetchWithInvalidDate(): void

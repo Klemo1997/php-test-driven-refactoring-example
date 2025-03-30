@@ -23,7 +23,7 @@ $container = new \DI\Container(array_merge($container_config, $env_container_con
 $app = Bridge::create($container);
 
 // Define Custom Error Handler
-$apiErrorHandler = function (ServerRequestInterface $request, Throwable $exception) use ($app) {
+$api_error_handler = function (ServerRequestInterface $request, Throwable $exception) use ($app) {
     $payload = ['error' => $exception->getMessage(), 'throwable' => $exception->getTraceAsString()];
 
     return $app->getResponseFactory()->createResponse()
@@ -31,8 +31,8 @@ $apiErrorHandler = function (ServerRequestInterface $request, Throwable $excepti
         ->withBody(new HttpFactory()->createStream(json_encode($payload, JSON_UNESCAPED_UNICODE)));
 };
 
-$errorMiddleware = $app->addErrorMiddleware(true, true, true);
-$errorMiddleware->setDefaultErrorHandler($apiErrorHandler);
+$error_middleware = $app->addErrorMiddleware(true, true, true);
+$error_middleware->setDefaultErrorHandler($api_error_handler);
 
 $app->post('/invoice', [InvoiceController::class, 'addInvoice']);
 

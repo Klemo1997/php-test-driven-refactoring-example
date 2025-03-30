@@ -14,21 +14,29 @@ final class InvoiceApiTest extends ContainerAwareTestCase
 {
     public function testAdd(): void
     {
-        $invoice = [
+        $invoice_create_request = [
             'amount' => 12.50,
             'currency' => 'CZK',
             'issued_on' => '2025-03-25',
         ];
 
-        $response = $this->postJson('/invoice', $invoice)
+        $response = $this->postJson('/invoice', $invoice_create_request)
             ->assertCreated();
 
-        $responseInvoice = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        $response_invoice = json_decode(
+            (string) $response->getBody(),
+            true,
+            512,
+            JSON_THROW_ON_ERROR,
+        );
 
-        /** @var InvoiceSQLiteRepository $repository */
-        $repository = $this->getContainer()->get(InvoiceSQLiteRepository::class);
-        $persistedInvoice = $repository->findById((int) $responseInvoice['id']);
+        $persisted_invoice = $this->getInvoiceRepository()->findById((int) $response_invoice['id']);
 
-        self::assertEquals($persistedInvoice, $responseInvoice);
+        self::assertEquals($persisted_invoice, $response_invoice);
+    }
+
+    public function getInvoiceRepository(): InvoiceSQLiteRepository
+    {
+        return $this->getContainer()->get(InvoiceSQLiteRepository::class);
     }
 }
