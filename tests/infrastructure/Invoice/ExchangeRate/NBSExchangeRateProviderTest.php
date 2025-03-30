@@ -26,6 +26,9 @@ final class NBSExchangeRateProviderTest extends TestCase
         5.3.2025;1,0694;160,09;1,9558;25,048;7,4589;0,835;398,85;4,15;4,9758;11,0125;0,9514;146,5;11,82;38,9615;1,703;6,2938;1,5398;7,7675;8,3106;"17 496,99";3,875;93,0873;"1 551,65";22,0091;4,7369;1,8832;61,383;1,4301;36,012;19,7222
         CSV;
 
+    private const INVALID_ISSUED_DATE = '1234-11-11';
+    private const INVALID_DATE_RESPONSE = "\x48\x65\x6C";
+
 
     public function testExecuteWithUnsupportedTargetCurrency(): void
     {
@@ -63,16 +66,36 @@ final class NBSExchangeRateProviderTest extends TestCase
         self::assertSame(self::SOURCE_TARGET_EXCHANGE_RATE, $actualRate);
     }
 
+    public function testFetchWithInvalidDate(): void
+    {
+        $this->expectException(UnableToFetchExchangeRateException::class);
+
+        new NBSExchangeRateProvider($this->getFakeClient())
+            ->fetch(
+                self::SOURCE_CURRENCY,
+                self::TARGET_CURRENCY,
+                new \DateTimeImmutable(self::INVALID_ISSUED_DATE),
+            );
+    }
+
     public function getFakeClient(): ClientInterface
     {
         $mock = $this->createMock(ClientInterface::class);
 
         $mock->method('request')
-            ->willReturn(
-                new ResponseFactory()
-                    ->createResponse()
-                    ->withStatus(StatusCodeInterface::STATUS_OK)
-                    ->withBody(Utils::streamFor(self::SAMPLE_RESPONSE))
+            ->willReturnCallback(
+                function ($method, $uri) {
+                    $response = self::SAMPLE_RESPONSE;
+
+                    if (str_contains($uri, self::INVALID_ISSUED_DATE)) {
+                        $response = self::INVALID_DATE_RESPONSE;
+                    }
+
+                    return new ResponseFactory()
+                        ->createResponse()
+                        ->withStatus(StatusCodeInterface::STATUS_OK)
+                        ->withBody(Utils::streamFor($response));
+                }
             );
 
         return $mock;

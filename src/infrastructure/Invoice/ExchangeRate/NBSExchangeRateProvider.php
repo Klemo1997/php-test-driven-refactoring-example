@@ -34,13 +34,24 @@ final readonly class NBSExchangeRateProvider
     /**
      * @param string $exchange_rates_csv
      * @return array<string, float|null>
+     * @throws UnableToFetchExchangeRateException
      */
     private function exchangeRatesFromCSV(string $exchange_rates_csv): array
     {
-        [$currencies, $exchange_rates] = array_map(
+        $rows = array_map(
             static fn($row) => str_getcsv($row, ';', escape: "\\"),
             explode(PHP_EOL, $exchange_rates_csv),
         );
+
+        if (count($rows) < 2) {
+            throw new UnableToFetchExchangeRateException('Invalid response from NBS');
+        }
+
+        [$currencies, $exchange_rates] = $rows;
+
+        if (!is_array($currencies) || !is_array($exchange_rates) || count($currencies) !== count($exchange_rates)) {
+            throw new UnableToFetchExchangeRateException('Invalid response from NBS');
+        }
 
         // Shift out the redundant date in first indices
         array_shift($currencies);
