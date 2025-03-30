@@ -19,7 +19,7 @@ final class NBSExchangeRateProviderTest extends TestCase
     private const UNSUPPORTED_TARGET_CURRENCY = 'BTC';
     private const TARGET_CURRENCY = 'CZK';
     private const SOURCE_TARGET_EXCHANGE_RATE = 25.048;
-    private const DATE = '2023-03-25';
+    private const ISSUED_DATE = '2023-03-25';
 
     private const SAMPLE_RESPONSE = <<<CSV
         Dátum;USD;JPY;BGN;CZK;DKK;GBP;HUF;PLN;RON;SEK;CHF;ISK;NOK;TRY;AUD;BRL;CAD;CNY;HKD;IDR;ILS;INR;KRW;MXN;MYR;NZD;PHP;SGD;THB;ZAR
@@ -35,7 +35,7 @@ final class NBSExchangeRateProviderTest extends TestCase
             ->fetch(
                 self::SOURCE_CURRENCY,
                 self::UNSUPPORTED_TARGET_CURRENCY,
-                new \DateTimeImmutable(self::DATE),
+                new \DateTimeImmutable(self::ISSUED_DATE),
             );
     }
 
@@ -47,7 +47,7 @@ final class NBSExchangeRateProviderTest extends TestCase
             ->fetch(
                 self::UNSUPPORTED_SOURCE_CURRENCY,
                 self::TARGET_CURRENCY,
-                new \DateTimeImmutable(self::DATE),
+                new \DateTimeImmutable(self::ISSUED_DATE),
             );
     }
 
@@ -57,7 +57,7 @@ final class NBSExchangeRateProviderTest extends TestCase
             ->fetch(
                 self::SOURCE_CURRENCY,
                 self::TARGET_CURRENCY,
-                new \DateTimeImmutable(self::DATE),
+                new \DateTimeImmutable(self::ISSUED_DATE),
             );
 
         self::assertSame(self::SOURCE_TARGET_EXCHANGE_RATE, $actualRate);
