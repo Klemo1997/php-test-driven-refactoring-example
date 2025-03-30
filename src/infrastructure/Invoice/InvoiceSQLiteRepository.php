@@ -35,4 +35,31 @@ final readonly class InvoiceSQLiteRepository
 
         $invoice['id'] = (int) $this->sqlite->lastInsertId();
     }
+
+
+    public function findById(int $id): ?array
+    {
+        $statement = $this->sqlite->prepare(<<<SQL
+            SELECT id, amount, currency, exchange_rate, vat, issued_on, created_at
+            FROM invoices
+            WHERE id = :id
+            SQL);
+
+        $statement->execute([':id' => $id]);
+        $invoice = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ([] === $invoice) {
+            return null;
+        }
+
+        return [
+            'id' => (int) $invoice['id'],
+            'amount' => $invoice['amount'],
+            'currency' => $invoice['currency'],
+            'exchange_rate' => $invoice['exchange_rate'],
+            'vat' => $invoice['vat'],
+            'issued_on' => $invoice['issued_on'],
+            'created_at' => $invoice['created_at'],
+        ];
+    }
 }
