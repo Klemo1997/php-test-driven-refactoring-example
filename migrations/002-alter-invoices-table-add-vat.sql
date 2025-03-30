@@ -1,0 +1,1 @@
+ALTER TABLE invoices ADD COLUMN vat REAL NOT NULL default 0;
