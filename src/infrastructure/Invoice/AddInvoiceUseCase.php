@@ -29,9 +29,6 @@ final readonly class AddInvoiceUseCase
         $invoice['vat'] = 23.0;
         $invoice['created_at'] = new \DateTimeImmutable()->format('Y-m-d H:i:s');
 
-        // Magic happens inside, that sets id to reference :-(
-        $this->invoiceRepository->create($invoice);
-
-        return $invoice;
+        return $this->invoiceRepository->create($invoice);
     }
 }

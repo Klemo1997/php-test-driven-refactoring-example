@@ -13,7 +13,7 @@ final readonly class InvoiceSQLiteRepository
     {
     }
 
-    public function create(array &$invoice): void
+    public function create(array $invoice): array
     {
         $statement = $this->sqlite->prepare(<<<SQL
             INSERT INTO invoices(amount, currency, vat, exchange_rate, issued_on, created_at)
@@ -34,6 +34,8 @@ final readonly class InvoiceSQLiteRepository
         }
 
         $invoice['id'] = (int) $this->sqlite->lastInsertId();
+
+        return $invoice;
     }
 
 
@@ -48,7 +50,7 @@ final readonly class InvoiceSQLiteRepository
         $statement->execute([':id' => $id]);
         $invoice = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if ([] === $invoice) {
+        if ($invoice === []) {
             return null;
         }
 
