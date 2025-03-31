@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Test\domain\Invoice;
 
 use App\domain\Invoice\AddInvoiceUseCase;
+use App\domain\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
 use App\domain\Invoice\InvoiceRepository;
 use App\domain\Invoice\Vat\SlovakVatProvider;
 use PHPUnit\Framework\TestCase;
@@ -18,6 +19,7 @@ final class AddInvoiceUseCaseTest extends TestCase
     private const SOURCE_CURRENCY = 'EUR';
     private const TARGET_CURRENCY = 'BTC';
     private const EXCHANGE_RATE = 76182.64;
+    private const UNSUPPORTED_TARGET_CURRENCY = 'ETH';
 
     public function testExecute(): void
     {
@@ -41,6 +43,20 @@ final class AddInvoiceUseCaseTest extends TestCase
 
         self::assertEquals($expected_invoice, $use_case->execute($invoice));
     }
+
+    public function testExecuteWithUnsupportedTargetCurrency(): void
+    {
+        $this->expectException(UnableToFetchExchangeRateException::class);
+
+        $invoice = [
+            'amount' => 12.5,
+            'currency' => self::UNSUPPORTED_TARGET_CURRENCY,
+            'issued_on' => '2025-03-31 19:00:00',
+        ];
+
+        $this->getUseCase()->execute($invoice);
+    }
+
 
     private function getUseCase(): AddInvoiceUseCase
     {
