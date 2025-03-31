@@ -2,6 +2,8 @@
 
 use App\domain\Invoice\ExchangeRate\ExchangeRateProvider;
 use App\domain\Invoice\InvoiceRepository;
+use App\domain\Invoice\Vat\SlovakVatProvider;
+use App\domain\Invoice\Vat\VatProvider;
 use App\infrastructure\Date\SystemClock;
 use App\infrastructure\Invoice\ExchangeRate\NBSExchangeRateProvider;
 use App\infrastructure\Invoice\InvoiceSQLiteRepository;
@@ -16,4 +18,5 @@ return [
     ClockInterface::class => DI\get(SystemClock::class),
     ExchangeRateProvider::class => DI\get(NBSExchangeRateProvider::class),
     InvoiceRepository::class => DI\get(InvoiceSQLiteRepository::class),
+    VatProvider::class => DI\get(SlovakVatProvider::class),
 ];
