@@ -6,12 +6,14 @@ namespace App\infrastructure\Invoice;
 
 use App\infrastructure\Invoice\ExchangeRate\NBSExchangeRateProvider;
 use App\infrastructure\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
+use Psr\Clock\ClockInterface;
 
 final readonly class AddInvoiceUseCase
 {
     public function __construct(
         private InvoiceSQLiteRepository $invoiceRepository,
         private NBSExchangeRateProvider $exchangeRateProvider,
+        private ClockInterface $clock,
     ) {
     }
 
@@ -27,7 +29,8 @@ final readonly class AddInvoiceUseCase
         );
 
         $invoice['vat'] = 23.0;
-        $invoice['created_at'] = new \DateTimeImmutable()->format('Y-m-d H:i:s');
+        $invoice['created_at'] = $this->clock->now()
+            ->format('Y-m-d H:i:s');
 
         return $this->invoiceRepository->create($invoice);
     }
