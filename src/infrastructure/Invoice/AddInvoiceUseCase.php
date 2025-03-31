@@ -6,12 +6,13 @@ namespace App\infrastructure\Invoice;
 
 use App\domain\Invoice\ExchangeRate\ExchangeRateProvider;
 use App\domain\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
+use App\domain\Invoice\InvoiceRepository;
 use Psr\Clock\ClockInterface;
 
 final readonly class AddInvoiceUseCase
 {
     public function __construct(
-        private InvoiceSQLiteRepository $invoiceRepository,
+        private InvoiceRepository $invoiceRepository,
         private ExchangeRateProvider $exchangeRateProvider,
         private ClockInterface $clock,
     ) {

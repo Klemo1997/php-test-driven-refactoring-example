@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\infrastructure\Invoice;
 
+use App\domain\Invoice\InvoiceRepository;
 use PDO;
 use Pdo\Sqlite;
 
-final readonly class InvoiceSQLiteRepository
+final readonly class InvoiceSQLiteRepository implements InvoiceRepository
 {
     public function __construct(private Sqlite $sqlite)
     {
