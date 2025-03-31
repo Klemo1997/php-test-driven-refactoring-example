@@ -16,9 +16,6 @@ final readonly class NBSExchangeRateProvider implements ExchangeRateProvider
     public function __construct(private ClientInterface $client) {
     }
 
-    /**
-     * @throws UnableToFetchExchangeRateException
-     */
     public function fetch(string $sourceCurrency, string $targetCurrency, \DateTimeImmutable $date): float
     {
         if ($sourceCurrency !== 'EUR') {
