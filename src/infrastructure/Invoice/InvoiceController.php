@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\infrastructure\Invoice;
 
+use App\domain\Invoice\AddInvoiceUseCase;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Message\ResponseInterface;

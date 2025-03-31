@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\infrastructure\Invoice;
+namespace App\domain\Invoice;
 
 use App\domain\Invoice\ExchangeRate\ExchangeRateProvider;
 use App\domain\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
-use App\domain\Invoice\InvoiceRepository;
 use Psr\Clock\ClockInterface;
 
 final readonly class AddInvoiceUseCase
