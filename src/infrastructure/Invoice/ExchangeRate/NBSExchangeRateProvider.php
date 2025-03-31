@@ -16,9 +16,9 @@ final readonly class NBSExchangeRateProvider implements ExchangeRateProvider
     public function __construct(private ClientInterface $client) {
     }
 
-    public function fetch(string $sourceCurrency, string $targetCurrency, \DateTimeImmutable $date): float
+    public function fetch(string $source_currency, string $target_currency, \DateTimeImmutable $date): float
     {
-        if ($sourceCurrency !== 'EUR') {
+        if ($source_currency !== 'EUR') {
             throw new UnableToFetchExchangeRateException('Invalid source currency');
         }
 
@@ -28,7 +28,7 @@ final readonly class NBSExchangeRateProvider implements ExchangeRateProvider
         $exchange_rates_csv = (string) $nbs_response->getBody();
         $exchange_rates_map = $this->exchangeRatesFromCSV($exchange_rates_csv);
 
-        return $exchange_rates_map[$targetCurrency]
+        return $exchange_rates_map[$target_currency]
             ?? throw new UnableToFetchExchangeRateException('Invalid target currency');
     }
 

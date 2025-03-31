@@ -9,5 +9,5 @@ interface ExchangeRateProvider
     /**
      * @throws UnableToFetchExchangeRateException
      */
-    public function fetch(string $sourceCurrency, string $targetCurrency, \DateTimeImmutable $date): float;
+    public function fetch(string $source_currency, string $target_currency, \DateTimeImmutable $date): float;
 }
