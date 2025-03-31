@@ -9,6 +9,8 @@ use GuzzleHttp\ClientInterface;
 
 final readonly class NBSExchangeRateProvider
 {
+    private const NBS_BASE_URL = 'https://nbs.sk/export/sk/exchange-rate/%s/csv';
+
     public function __construct(private ClientInterface $client) {
     }
 
@@ -21,7 +23,7 @@ final readonly class NBSExchangeRateProvider
             throw new UnableToFetchExchangeRateException('Invalid source currency');
         }
 
-        $nbs_url = sprintf('https://nbs.sk/export/sk/exchange-rate/%s/csv', $date->format('Y-m-d'));
+        $nbs_url = sprintf(self::NBS_BASE_URL, $date->format('Y-m-d'));
 
         $nbs_response = $this->client->request(RequestMethodInterface::METHOD_GET, $nbs_url);
         $exchange_rates_csv = (string) $nbs_response->getBody();

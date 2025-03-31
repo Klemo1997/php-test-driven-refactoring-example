@@ -29,8 +29,7 @@ final class NBSExchangeRateProviderTest extends TestCase
     private const INVALID_ISSUED_DATE = '1234-11-11';
     private const INVALID_DATE_RESPONSE = "\x48\x65\x6C";
 
-
-    public function testExecuteWithUnsupportedTargetCurrency(): void
+    public function testFetchWithUnsupportedTargetCurrency(): void
     {
         $this->expectException(UnableToFetchExchangeRateException::class);
 
@@ -42,7 +41,7 @@ final class NBSExchangeRateProviderTest extends TestCase
             );
     }
 
-    public function testExecuteWithUnsupportedSourceCurrency(): void
+    public function testFetchWithUnsupportedSourceCurrency(): void
     {
         $this->expectException(UnableToFetchExchangeRateException::class);
 
