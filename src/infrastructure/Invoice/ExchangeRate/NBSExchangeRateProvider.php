@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\infrastructure\Invoice\ExchangeRate;
 
+use App\domain\Invoice\ExchangeRate\ExchangeRateProvider;
+use App\domain\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
 use Fig\Http\Message\RequestMethodInterface;
 use GuzzleHttp\ClientInterface;
 
-final readonly class NBSExchangeRateProvider
+final readonly class NBSExchangeRateProvider implements ExchangeRateProvider
 {
     private const NBS_BASE_URL = 'https://nbs.sk/export/sk/exchange-rate/%s/csv';
 

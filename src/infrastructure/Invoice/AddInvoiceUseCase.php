@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\infrastructure\Invoice;
 
-use App\infrastructure\Invoice\ExchangeRate\NBSExchangeRateProvider;
-use App\infrastructure\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
+use App\domain\Invoice\ExchangeRate\ExchangeRateProvider;
+use App\domain\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
 use Psr\Clock\ClockInterface;
 
 final readonly class AddInvoiceUseCase
 {
     public function __construct(
         private InvoiceSQLiteRepository $invoiceRepository,
-        private NBSExchangeRateProvider $exchangeRateProvider,
+        private ExchangeRateProvider $exchangeRateProvider,
         private ClockInterface $clock,
     ) {
     }

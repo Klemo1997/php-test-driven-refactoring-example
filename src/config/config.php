@@ -1,6 +1,8 @@
 <?php
 
+use App\domain\Invoice\ExchangeRate\ExchangeRateProvider;
 use App\infrastructure\Date\SystemClock;
+use App\infrastructure\Invoice\ExchangeRate\NBSExchangeRateProvider;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Pdo\Sqlite;
@@ -10,4 +12,5 @@ return [
     ClientInterface::class => DI\get(Client::class),
     Sqlite::class => new Sqlite('sqlite:/app/database.sqlite'),
     ClockInterface::class => DI\get(SystemClock::class),
+    ExchangeRateProvider::class => DI\get(NBSExchangeRateProvider::class),
 ];

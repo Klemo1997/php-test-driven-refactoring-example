@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Test\infrastructure\Invoice\ExchangeRate;
 
+use App\domain\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
 use App\infrastructure\Invoice\ExchangeRate\NBSExchangeRateProvider;
-use App\infrastructure\Invoice\ExchangeRate\UnableToFetchExchangeRateException;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Utils;

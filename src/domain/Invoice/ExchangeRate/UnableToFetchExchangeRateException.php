@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\infrastructure\Invoice\ExchangeRate;
+namespace App\domain\Invoice\ExchangeRate;
 
 final class UnableToFetchExchangeRateException extends \Exception
 {
